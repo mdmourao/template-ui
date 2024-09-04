@@ -8,10 +8,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import Link from 'next/link';
-import axios from 'axios';
 import customFetch from '../helpers/axios';
 import toast from 'react-hot-toast';
+import { FaUser } from "react-icons/fa";
+
 
 export async function User() {
 
@@ -23,40 +23,32 @@ export async function User() {
           size="icon"
           className="overflow-hidden rounded-full"
         >
-          <Image
-            src={'/placeholder-user.jpg'}
-            width={36}
-            height={36}
-            alt="Avatar"
-            className="overflow-hidden rounded-full"
-          />
+          <FaUser width={36}
+            height={36} className='overflow-hidden rounded-full' />
+
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
+
         <DropdownMenuItem>Settings</DropdownMenuItem>
+
         <DropdownMenuItem>Support</DropdownMenuItem>
+
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
-
-          <button onClick={() => {
-            customFetch.post("api/logout").then((r) => {
-              toast.success("signed out")
-              window.location.href = "/login"
-            }).catch((r) => {
-              toast.error("error signing out")
-              window.location.href = "/login"
-            })
-          }}>Sign Out</button>
-
+        <DropdownMenuItem onClick={() => {
+          customFetch.post("api/logout").then((r) => {
+            toast.success("signed out")
+            window.location.href = "/login"
+          }).catch((r) => {
+            toast.error("error signing out")
+            window.location.href = "/login"
+          })
+        }}>
+          <button >Sign Out</button>
         </DropdownMenuItem>
-
-        <DropdownMenuItem>
-          <Link href="/login">Sign In</Link>
-        </DropdownMenuItem>
-
       </DropdownMenuContent>
     </DropdownMenu>
   );
