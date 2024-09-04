@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link';
 import {
   Home,
@@ -30,12 +32,23 @@ import { VercelLogo } from '@/components/icons';
 import Providers from './providers';
 import { NavItem } from './nav-item';
 import { SearchInput } from './search';
+import { useEffect } from 'react';
+import customFetch from '../helpers/axios';
 
 export default function DashboardLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
+
+  useEffect(() => {
+    customFetch.get("api/session").then((r) => {
+      console.log(r.data)
+    }).catch((r) => {
+      console.log(r)
+    })
+  }, []);
+
   return (
     <Providers>
       <main className="flex min-h-screen w-full flex-col bg-muted/40">

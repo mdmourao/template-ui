@@ -10,6 +10,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import axios from 'axios';
+import customFetch from '../helpers/axios';
+import toast from 'react-hot-toast';
 
 export async function User() {
 
@@ -38,18 +40,17 @@ export async function User() {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem>
-          <form
-            action={async () => {
-              'use server';
-              axios.post('/api/logout').then(() => {
-                window.location.reload();
-              }).catch((error) => {
-                console.error(error);
-              });
-            }}
-          >
-            <button type="submit">Sign Out</button>
-          </form>
+
+          <button onClick={() => {
+            customFetch.post("api/logout").then((r) => {
+              toast.success("signed out")
+              window.location.href = "/login"
+            }).catch((r) => {
+              toast.error("error signing out")
+              window.location.href = "/login"
+            })
+          }}>Sign Out</button>
+
         </DropdownMenuItem>
 
         <DropdownMenuItem>
