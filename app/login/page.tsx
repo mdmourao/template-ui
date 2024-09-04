@@ -4,8 +4,21 @@ import axios from "axios";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { addAccessTokenToLocalStorage } from "../helpers/auth";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 export default function Login() {
+
+    function clearAllStorage() {
+        localStorage.clear()
+        sessionStorage.clear()
+    }
+
+    useEffect(() => {
+        clearAllStorage()
+    }, [])
+
     const router = useRouter()
 
     const formik = useFormik({
@@ -15,9 +28,11 @@ export default function Login() {
         },
         onSubmit: values => {
             axios.post("api/login", values).then((r) => {
+                console.log(r)
+                addAccessTokenToLocalStorage(r.data.data.access_token)
                 router.push("/")
             }).catch((r) => {
-                console.log("ERROR")
+                toast.error("invalid email or password")
             })
         },
     });
